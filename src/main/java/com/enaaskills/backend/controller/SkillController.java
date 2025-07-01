@@ -1,12 +1,12 @@
 package com.enaaskills.backend.controller;
 
 
+import com.enaaskills.backend.dto.validationDTO.ValidateSkillDTO;
+import com.enaaskills.backend.model.Skill;
 import com.enaaskills.backend.service.SkillService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/skill")
@@ -23,6 +23,14 @@ public class SkillController {
     @GetMapping
     public ResponseEntity<?> index () {
         return skillService.listSkills();
+    }
+
+    @PostMapping
+    public ResponseEntity<?> newSkill (@Valid @RequestBody ValidateSkillDTO validateSkillDTO) {
+        Skill newSkill = new Skill();
+        newSkill.setName(validateSkillDTO.name());
+
+        return skillService.createSkill( newSkill );
     }
 
 
