@@ -33,6 +33,10 @@ public class SkillController {
         return skillService.createSkill( newSkill );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSkillById ( @PathVariable Long id ) {
+        return skillService.getSkillById( id );
+    }
 
 }
 

@@ -1,5 +1,6 @@
 package com.enaaskills.backend.service;
 
+import com.enaaskills.backend.exception.NotFoundException;
 import com.enaaskills.backend.model.Skill;
 import com.enaaskills.backend.repository.SkillRepository;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,8 @@ public class SkillService {
     }
 
     public ResponseEntity<?> getSkillById( Long skillId ) {
-        Skill skill = skillRepository.findById( skillId ).orElseThrow();
+        Skill skill = skillRepository.findById( skillId )
+                .orElseThrow(() -> new NotFoundException("this skill is not found"));
 
         return new ResponseEntity<>(skill, HttpStatus.OK);
     }
