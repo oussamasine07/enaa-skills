@@ -38,6 +38,20 @@ public class SkillController {
         return skillService.getSkillById( id );
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSkill ( @RequestBody ValidateSkillDTO validateSkillDTO, @PathVariable Long id ) {
+
+        Skill skill = new Skill();
+        skill.setName( validateSkillDTO.name() );
+        return skillService.updateSkill( skill, id );
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteSkill ( @PathVariable Long id ) {
+        return skillService.deleteSkill( id );
+    }
+
 }
 
 

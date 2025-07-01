@@ -40,18 +40,23 @@ public class SkillService {
     }
 
     public ResponseEntity<?> updateSkill (Skill skill, Long skillId ) {
-        Skill updatedSkill = skillRepository.findById( skillId ).orElseThrow();
+        Skill updatedSkill = skillRepository.findById( skillId )
+                .orElseThrow(() -> new NotFoundException("you can't update an unfound skill"));
+
         updatedSkill.setName( skill.getName() );
 
         return new ResponseEntity<>(skillRepository.save( updatedSkill ), HttpStatus.OK);
     }
 
     public ResponseEntity<?> deleteSkill ( Long skillId ) {
-        Skill deletedSkill = skillRepository.findById( skillId ).orElseThrow();
+        Skill deletedSkill = skillRepository.findById( skillId )
+                .orElseThrow(() -> new NotFoundException("you can't delete an unfound skill"));
 
         Map<String, String> success = new HashMap<>();
         success.put("status", "success");
         success.put("message", "skill: " + deletedSkill.getName() + " was deleted Successfully");
+
+        skillRepository.deleteById( skillId );
 
         return new ResponseEntity<>( success, HttpStatus.OK );
 
