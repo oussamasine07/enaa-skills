@@ -13,6 +13,9 @@ public class SubSkill {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "is_valid", columnDefinition = "boolean default false")
+    private Boolean isValid;
+
     @ManyToOne
     private Skill skill;
 
