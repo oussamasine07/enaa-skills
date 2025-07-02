@@ -15,8 +15,8 @@ public class Skill {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "skill")
-    private List<SubSkill> subskills;
+    @OneToMany(mappedBy = "skill", fetch = FetchType.LAZY)
+    private List<SubSkill> subSkills;
 
     public Skill () {};
 
@@ -37,10 +37,10 @@ public class Skill {
     }
 
     public List<SubSkill> getSubskills() {
-        return subskills;
+        return subSkills;
     }
 
-    public void setSubskills(List<SubSkill> subskills) {
-        this.subskills = subskills;
+    public void setSubskills(List<SubSkill> subSkills) {
+        this.subSkills = subSkills;
     }
 }
