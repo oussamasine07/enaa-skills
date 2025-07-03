@@ -43,6 +43,26 @@ public class SubSkillController {
         return subSkillService.createSubSkill( newSubSkill );
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSubSkill (@Valid @RequestBody ValidateSubSkillDTO validateSubSkillDTO, @PathVariable Long id) {
+
+        Skill skill = skillRepository
+                .findById(validateSubSkillDTO.skill_id())
+                .orElseThrow(() -> new NotFoundException("this skill is not found"));
+
+        SubSkill newSubSkill = new SubSkill();
+        newSubSkill.setName(validateSubSkillDTO.name());
+        newSubSkill.setSkill(skill);
+
+        return subSkillService.updateSubSkill( newSubSkill, id );
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteSubSkill ( @PathVariable Long id ) {
+        return subSkillService.deleteSubSkill( id );
+    }
+
 }
 
 
