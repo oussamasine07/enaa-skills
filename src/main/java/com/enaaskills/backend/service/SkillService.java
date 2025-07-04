@@ -1,8 +1,8 @@
 package com.enaaskills.backend.service;
 
-import com.enaaskills.backend.dto.mappingDTO.MappedWithSubSkillsDTO;
+import com.enaaskills.backend.dto.mappingDTO.MappedSkillDTO;
 import com.enaaskills.backend.exception.NotFoundException;
-import com.enaaskills.backend.mapper.SkillMapperWithSubSkills;
+import com.enaaskills.backend.mapper.SkillMapper;
 import com.enaaskills.backend.model.Skill;
 import com.enaaskills.backend.repository.SkillRepository;
 import org.springframework.http.HttpStatus;
@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 public class SkillService {
 
     private final SkillRepository skillRepository;
-    private final SkillMapperWithSubSkills skillMapper;
+    private final SkillMapper skillMapper;
 
     public SkillService (
             final SkillRepository skillRepository,
-            final SkillMapperWithSubSkills skillMapper
+            final SkillMapper skillMapper
     ) {
         this.skillRepository = skillRepository;
         this.skillMapper = skillMapper;
     }
 
     public ResponseEntity<?> listSkills () {
-        List<MappedWithSubSkillsDTO> skills = skillRepository
+        List<MappedSkillDTO> skills = skillRepository
                 .findSkillsWithSubSkills()
                 .stream()
                 .map(skillMapper::toDTO)
@@ -43,7 +43,7 @@ public class SkillService {
     public ResponseEntity<?> getSkillById( Long skillId ) {
         Skill skill = skillRepository.findById( skillId )
                 .orElseThrow(() -> new NotFoundException("this skill is not found"));
-        MappedWithSubSkillsDTO mappedSkill = skillMapper.toDTO( skill );
+        MappedSkillDTO mappedSkill = skillMapper.toDTO( skill );
 
         return new ResponseEntity<>(mappedSkill, HttpStatus.OK);
     }
