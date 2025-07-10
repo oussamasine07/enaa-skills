@@ -13,4 +13,14 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
     @Query(value = "SELECT s FROM Skill s LEFT JOIN FETCH s.subSkills")
     public List<Skill> findSkillsWithSubSkills();
 
+    @Query(value = "select\n" +
+            "\tskills.name,\n" +
+            "\tcount(*)    \n" +
+            "from skills\n" +
+            "inner join sub_skills\n" +
+            "on skills.id = sub_skills.skill_id\n" +
+            "where sub_skills.is_valid = 1\n" +
+            "group by skills.name;", nativeQuery = true)
+    public List<Skill> countValiatedSubSkillsBySkill();
+
 }
